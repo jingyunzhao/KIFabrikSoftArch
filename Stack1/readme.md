@@ -9,4 +9,7 @@ pip install reportlab==4.2.2
 pip install moms-apriltag==2023.1.15
 pip install imageio==2.35.1
 pip install pupil-apriltags==1.0.4.post10
+pip install websockets
+sudo -H pip install --upgrade --user paramiko
+pip install paramiko
 ```

@@ -1,0 +1,26 @@
+{
+    "TrafoDarkoGlo": [],
+    "EndEffector": {
+        "pos_Darko": "None"
+    },
+    "0": {
+        "name": "Bolt_Small",
+        "pos_cam": "None"
+    },
+    "1": {
+        "name": "Bolt_Large",
+        "pos_cam": "None"
+    },
+    "2": {
+        "name": "Gear_Compound",
+        "pos_cam": "None"
+    },
+    "3": {
+        "name": "Gear_Small",
+        "pos_cam": "None"
+    },
+    "4": {
+        "name": "Gear_Large",
+        "pos_cam": "None"
+    }
+}

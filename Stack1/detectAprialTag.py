@@ -14,6 +14,16 @@ config.enable_stream(rs.stream.depth, 640, 480, rs.format.z16, 30)
 config.enable_stream(rs.stream.color, 640, 480, rs.format.bgr8, 30)
 pipeline.start(config)
 
+# # Initialize the second camera
+# pipeline2 = rs.pipeline()
+# config2 = rs.config()
+# config2.enable_stream(rs.stream.depth, 640, 480, rs.format.z16, 30)
+# config2.enable_stream(rs.stream.color, 640, 480, rs.format.bgr8, 30)
+# pipeline2.start(config2)
+# frames2 = pipeline2.wait_for_frames()
+
+
+
 # Create an AprilTag detector
 # The default family is tag25h9 (enodes 25 bits of info, hamming distance is 9)
 # The detection will run in a single thread, no decimation is applied
@@ -22,13 +32,14 @@ detector = Detector(families='tag25h9', nthreads=1, quad_decimate=1.0)
 # Initialize variables to store tag positions
 tag_positions = {i: [] for i in range(5)}
 tag_pos = {}
+
 tag_pos_aver = {}
 frame_count = 0
 max_frames = 50
 tag_num = 5
 
 # Store the global coordinates of the tag
-json_file_path = "/home/fandibi/Desktop/Jingyun/RealSenseCamera/scripts/StackDB.json"
+json_file_path = "/home/fandibi/Desktop/Jingyun/KIFabrikSoftArch/Stack1/StackDB.json"
 
 # Load existing data from the JSON file if it exists
 with open(json_file_path, 'r') as json_file:
@@ -48,6 +59,8 @@ try:
     while frame_count < max_frames:
         # Wait for a new frame from the camera
         frames = pipeline.wait_for_frames()
+
+
         depth_frame = frames.get_depth_frame()
         color_frame = frames.get_color_frame()
 
@@ -69,7 +82,7 @@ try:
             z = depth_frame.get_distance(int(tag.center[0]), int(tag.center[1]))
 
             # Draw the bounding box on the color image
-            cv2.rectangle(color_image, (x_min, y_min), (x_max, y_max), (0, 255, 0), 2)
+            # cv2.rectangle(color_image, (x_min, y_min), (x_max, y_max), (0, 255, 0), 2)
             
             # transform the apriltag's coordinates to the camera coordinates
             global_coords = np.dot(tag.homography, np.array([tag.center[0], tag.center[1], z]))
@@ -97,8 +110,16 @@ finally:
     # Stop the pipeline and close all windows
     pipeline.stop()
     cv2.destroyAllWindows()
+
     
     
     # Save the updated stack_db back to the JSON file
     with open(json_file_path, 'w') as json_file:
         json.dump(stack_db, json_file, indent=4)
+
+
+# Release the first camera before starting the second one
+
+
+# Wait for a new frame from the second camera
+
